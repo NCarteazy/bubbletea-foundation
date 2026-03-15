@@ -7,6 +7,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 
+	"github.com/NCarteazy/bubbletea-foundation/components"
 	"github.com/NCarteazy/bubbletea-foundation/layout"
 	"github.com/NCarteazy/bubbletea-foundation/theme"
 )
@@ -278,4 +279,30 @@ func (h *helpOverlay) View() string {
 
 func (h *helpOverlay) Done() bool {
 	return h.done
+}
+
+// --- Confirm overlay adapter ---
+
+// confirmOverlay wraps a components.Confirm as an Overlay.
+type confirmOverlay struct {
+	confirm *components.Confirm
+}
+
+// ConfirmOverlay creates an Overlay from a Confirm component.
+func ConfirmOverlay(c *components.Confirm) Overlay {
+	return &confirmOverlay{confirm: c}
+}
+
+func (o *confirmOverlay) Update(msg tea.Msg) (Overlay, tea.Cmd) {
+	updated, cmd := o.confirm.Update(msg)
+	o.confirm = updated
+	return o, cmd
+}
+
+func (o *confirmOverlay) View() string {
+	return o.confirm.View()
+}
+
+func (o *confirmOverlay) Done() bool {
+	return o.confirm.Done()
 }
