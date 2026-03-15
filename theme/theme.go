@@ -15,6 +15,7 @@ type Theme interface {
 	Text() string
 	Muted() string
 	Surface() string
+	Overlay() string
 
 	// Pre-built styles
 	Title() lipgloss.Style
